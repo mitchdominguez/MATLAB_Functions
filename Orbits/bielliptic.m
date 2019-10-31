@@ -6,13 +6,10 @@
 % during the intermediate burn (at apoapsis).
 % Assumptions:
 %   -departure burn is done at zero true anomaly (at periapsis)
-%   -initial and final orbit have the same RAAN 
+%   -initial and final orbit have the same AOP, RAAN 
 % 
 % Outputs:
-%   dv1 = delta v vector for departure burn [km/s]
-%   dv2 = delta v vector for intermediate burn [km/s]
-%   dv3 = delta v vector for final burn [km/s]
-%   states = orbital states before and after each burn [r;v] (in inertial coordinates)
+%   man = cell array of structs containing maneuver information (r, v_m, v_p, dv, alpha, beta)
 %   tof = 2x1 vector containing time of flight on each intermediate trajectory [s]
 % Inputs:
 %   orbit1 = struct containing orbital elements of the initial orbit [SMA, ECC, INC]
@@ -21,7 +18,8 @@
 %   r_i = intermediate radius [km]
 %   mu = gravitational parameter [km3/s2]
 
-function [dv1, dv2, dv3, states, tof, alpha, beta] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
+%function [dv1, dv2, dv3, states, tof, alpha, beta, man] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
+function [man, tof] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
 
     %% Unpack inputs
     a_1 = orbit1.SMA;
@@ -53,70 +51,73 @@ function [dv1, dv2, dv3, states, tof, alpha, beta] = bielliptic(orbit1, orbit2, 
     a_t2 = 0.5*(r_2 + r_i);
 
     % Calculate v1_m
-    v1_m_mag = sqrt(mu/r_1);
+    %v1_m_mag = sqrt(mu/r_1);
+    v1_m_mag = sqrt(2*mu/r_1 - mu/a_1);
     iCr_1 = rot_rthh2inertial(RAAN,i_1,0,'deg');
     v1_m = iCr_1*[0;v1_m_mag;0];
-    states.m1 = [r_1;0;0;v1_m];
+    man{1}.r = [r_1;0;0];
+    man{1}.v_m = v1_m;
 
     % Calculate v1_p
     v1_p_mag = sqrt(2*mu/r_1 - mu/a_t1);
     v1_p = iCr_1*[0;v1_p_mag;0];
-    states.p1 = [r_1;0;0;v1_p];
+    man{1}.v_p = v1_p;
 
     % Calculate dv1
     dv1 = v1_p - v1_m;
+    man{1}.dv = dv1;
 
     % Calculate alpha, beta
-    [alpha1, beta1] = calc_3D_alpha_beta(states.p1(1:3),states.p1(4:6), dv1);
+    [man{1}.alpha, man{1}.beta] = calc_3D_alpha_beta(man{1}.r,man{1}.v_m, dv1);
 
     %% Second Maneuver
     % Calculate v2_m
     v2_m_mag = sqrt(2*mu/r_i - mu/a_t1);
     iCr_2_m = rot_rthh2inertial(RAAN,i_1,180,'deg');
     v2_m = iCr_2_m*[0;v2_m_mag;0];
-    states.m2 = [-r_i;0;0;v2_m];
+    man{2}.r = [-r_i;0;0];
+    man{2}.v_m = v2_m;
 
     % Calculate v2_p
     v2_p_mag = sqrt(2*mu/r_i - mu/a_t2);
     iCr_2_p = rot_rthh2inertial(RAAN,i_2,180,'deg');
     v2_p = iCr_2_p*[0;v2_p_mag;0];
-    states.p2 = [-r_i;0;0;v2_p];
+    man{2}.v_p = v2_p;
 
     % Calculate dv2
     dv2 = v2_p - v2_m;
+    man{2}.dv = dv2;
 
     % Calculate alpha, beta
-    [alpha2, beta2] = calc_3D_alpha_beta(states.p2(1:3),states.p2(4:6),dv2);
+    [man{2}.alpha , man{2}.beta] = calc_3D_alpha_beta(man{2}.r,man{2}.v_m,dv2);
 
     % Calculate TOF
     tof(1,1) = pi*sqrt(a_t1^3/mu);
 
+
     %% Third maneuver
-    % Calculate v3_m
-    v3_m_mag = sqrt(2*mu/r_2 - mu/a_t2);
-    iCr_3 = rot_rthh2inertial(RAAN,i_2,0,'deg');
-    v3_m = iCr_3*[0;v3_m_mag;0];
-    states.m3 = [r_2;0;0;v3_m];
-    
-    % Calculate v3_p
-    v3_p_mag = sqrt(mu/r_2);
-    v3_p = iCr_3*[0;v3_p_mag;0];
-    states.p3 = [r_2;0;0;v3_p];
+    if ~hohmann % only calculate this if it's not a hohmann transfer
+        % Calculate v3_m
+        v3_m_mag = sqrt(2*mu/r_2 - mu/a_t2);
+        iCr_3 = rot_rthh2inertial(RAAN,i_2,0,'deg');
+        v3_m = iCr_3*[0;v3_m_mag;0];
+        man{3}.r = [r_2;0;0];
+        man{3}.v_m = v3_m;
 
-    % Calculate dv3
-    dv3 = v3_p - v3_m;
+        % Calculate v3_p
+        %v3_p_mag = sqrt(mu/r_2);
+        v3_p_mag = sqrt(2*mu/r_2 - mu/a_2);
+        v3_p = iCr_3*[0;v3_p_mag;0];
+        man{3}.v_p = v3_p;
 
-    if hohmann % Case that this is a Hohmann transfer
-        tof(2,1) = 0;
-        alpha = [alpha1;alpha2];
-        beta = [beta1;beta2];
-    else
+        % Calculate dv3
+        dv3 = v3_p - v3_m;
+        man{3}.dv = dv3;
+
         tof(2,1) = pi*sqrt(a_t2^3/mu);
 
         % Calculate alpha, beta
-        [alpha3, beta3] = calc_3D_alpha_beta(states.p3(1:3),states.p3(4:6),dv3);
-        alpha = [alpha1;alpha2;alpha3];
-        beta = [beta1;beta2;beta3];
+        [man{3}.alpha, man{3}.beta] = calc_3D_alpha_beta(man{3}.r,man{3}.v_m,dv3);
     end
 
 end
