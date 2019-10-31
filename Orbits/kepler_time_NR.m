@@ -1,12 +1,15 @@
 % Mitchell Dominguez - Cornell University - 02/15/2018
 % Solve Kepler's Time Equation using the Newton-Raphson Method
+%
+% Outputs:
+%   E_final = calculated eccentric anomaly [rad]
+%   err = error from NR iteration
+% Inputs:
+%   M = mean anomaly [rad]
+%   e = eccentricity
+%   max_iter = maximum number of iterations allowed
+%   tol = convergence criteria
 function [E_final,err] = kepler_time_NR(M,e,max_iter,tol)
-% M = mean anomaly
-% e = eccentricity
-% max_iter = max number of iterations
-% tol = convergence criteria
-
-% E = zeros(1,n);
 
 % Calculate E0
 if (M/(1-e) < sqrt(6*(1-e)/e))
