@@ -10,7 +10,7 @@
 %   R = DCM
 
 function R = rotmataa(v,th,unit)
-    v = v/norm(v); % normalize axis
+    v = reshape(v,[],1)/norm(v); % normalize axis
     if strcmp(unit,'deg')
         R = (cosd(th)*eye(3) + (1-cosd(th))*(v*v.') - sind(th)*crs(v)).';
     else

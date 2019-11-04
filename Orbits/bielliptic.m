@@ -18,7 +18,6 @@
 %   r_i = intermediate radius [km]
 %   mu = gravitational parameter [km3/s2]
 
-%function [dv1, dv2, dv3, states, tof, alpha, beta, man] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
 function [man, tof] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
 
     %% Unpack inputs
