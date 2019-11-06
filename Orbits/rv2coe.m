@@ -1,6 +1,14 @@
 %% Mitchell Dominguez - rv2coe.m
 % Convert inertial position and velocity into classical (keplerian)
 % orbital elements (COEs)
+%
+% Outputs:
+%   coe = struct containing classical orbital elements [SMA, ECC, AOP, RAAN, INC, TA, TH]
+%
+% Inputs:
+%   r = inertial position vector [km/s] [3x1]
+%   v = inertial velocity vector [km/s] [3x1]
+%   mu = gravitational parameter [km3/s2]
 
 function coe = rv2coe(r,v,mu)
 
@@ -38,30 +46,30 @@ function coe = rv2coe(r,v,mu)
         thstar = -thstar_init;
     end
 
-    if isnan(thstar)
-        disp('WARNING: TA WAS NAN')
-        thstar = 0;
-    end
+    %if isnan(thstar)
+        %disp('WARNING: TA WAS NAN')
+        %thstar = 0;
+    %end
 
     % Calculate omega
     th = atan2d(r_hat(3)/sind(i), th_hat(3)/sind(i));
-    if isnan(th)
-        disp('WARNING: TH WAS NAN')
-        th = 0;
-    end
+    %if isnan(th)
+        %disp('WARNING: TH WAS NAN')
+        %th = 0;
+    %end
 
     omega = th-thstar;
-    if isnan(omega)
-        disp('WARNING: AOP WAS NAN')
-        omega = 0;
-    end
+    %if isnan(omega)
+        %disp('WARNING: AOP WAS NAN')
+        %omega = 0;
+    %end
 
 
     coe.SMA = a;
     coe.ECC = e;
     coe.AOP = omega;
     coe.RAAN = Omega;
-    coe.INC = i;
     coe.TA = thstar;
+    coe.INC = i;
     coe.TH = th;
 end

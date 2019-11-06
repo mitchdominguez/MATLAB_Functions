@@ -12,6 +12,7 @@
 sun.ax_rot_period   = 0.0394011;
 sun.R               = 695990.00;
 sun.mu              = 132712440017.9900;
+save('Constants/sun_constants.mat','sun')
 
 %% Moon
 moon.ax_rot_period  = 0.0366004;
@@ -21,6 +22,7 @@ moon.a              = 384400.000; % About Earth
 moon.P              = 2360592; % Orbit period 
 moon.e              = 0.0549000;
 moon.i              = 5.14500;
+save('Constants/moon_constants.mat','moon')
 
 %% Mercury
 mercury.ax_rot_period  = 0.0170514;
@@ -30,6 +32,7 @@ mercury.a              = 57909226.542;
 mercury.P              = 7600561.226;
 mercury.e              = 0.205636;
 mercury.i              = 7.004979;
+save('Constants/mercury_constants.mat','mercury')
 
 %% Venus
 venus.ax_rot_period  = 0.0041149; % RETROGRADE
@@ -39,6 +42,7 @@ venus.a              = 108209474.537;
 venus.P              = 19414287.29;
 venus.e              = 0.006776720;
 venus.i              = 3.394676;
+save('Constants/venus_constants.mat','venus')
 
 %% Earth
 earth.ax_rot_period  = 1.0027395;
@@ -48,6 +52,7 @@ earth.a              = 149597870.700;
 earth.P              = 31558148.63;
 earth.e              = 0.01671022;
 earth.i              = 0.00005;
+save('Constants/earth_constants.mat','earth')
 
 %% Mars
 mars.ax_rot_period  = 0.9747000;
@@ -57,6 +62,7 @@ mars.a              = 227943822.428;
 mars.P              = 59356149.69;
 mars.e              = 0.0933941000;
 mars.i              = 1.849691;
+save('Constants/mars_constants.mat','mars')
 
 %% Jupiter
 jupiter.ax_rot_period  = 2.4181573;
@@ -66,6 +72,7 @@ jupiter.a              = 778340816.693;
 jupiter.P              = 374344561.8;
 jupiter.e              = 0.0483862400;
 jupiter.i              = 1.304397;
+save('Constants/jupiter_constants.mat','jupiter')
 
 %% Saturn
 saturn.ax_rot_period  = 2.2522053;
@@ -75,6 +82,7 @@ saturn.a              = 1426666414.180;
 saturn.P              = 929277960.1;
 saturn.e              = 0.05386179;
 saturn.i              = 2.485992;
+save('Constants/saturn_constants.mat','saturn')
 
 %% Uranus
 uranus.ax_rot_period  = 1.3921114; % retrograde
@@ -84,6 +92,7 @@ uranus.a              = 2870658170.656;
 uranus.P              = 2652691782;
 uranus.e              = 0.047257440;
 uranus.i              = 0.77264;
+save('Constants/uranus_constants.mat','uranus')
 
 %% Neptune
 neptune.ax_rot_period  = 1.4897579;
@@ -93,6 +102,7 @@ neptune.a              = 4498396417.0095;
 neptune.P              = 5203546650;
 neptune.e              = 0.008590480;
 neptune.i              = 1.770043;
+save('Constants/neptune_constants.mat','neptune')
 
 %% Pluto
 pluto.ax_rot_period  = 0.1565620;
@@ -102,3 +112,4 @@ pluto.a              = 5906440596.5288;
 pluto.P              = 7829117488;
 pluto.e              = 0.248827300;
 pluto.i              = 17.140012;
+save('Constants/pluto_constants.mat','pluto')
