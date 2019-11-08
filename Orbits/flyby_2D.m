@@ -23,8 +23,9 @@
 %   planet = struct containing flyby planet information -- must have fields 'mu', 'a'
 %   sun = struct containing flyby sun information -- must have fields 'mu'
 %   flyby_radius = radius to perform flyby at
+%   leadtrail = 'lead' if leading or 'trail' if trailing. Default behavior is trailing
 
-function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius)
+function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius, leadtrail)
     define_xyz;
     x_h.r_p = flyby_radius;
 
@@ -38,7 +39,7 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius)
     x_m.v_I = x_m.iCr*x_m.v_R; % Inertial frame velocity pre-encounter
 
     % planet values at flyby
-    v_J_mag = sqrt((sun.mu+planet.mu)/planet.a); % planet speed
+    v_J_mag = sqrt((sun.mu)/planet.a); % planet speed
     v_J_I = x_m.iCr*[0;v_J_mag;0]; % planet inertial velocity
 
     % Flyby values
@@ -55,7 +56,7 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius)
     x_p.v_I = v_J_I + x_h.v_inf_p; % heliocentric velocity after flyby (in inertial frame) [km/s] [3x1]
     x_p.v_mag = norm(x_p.v_I); % heliocentric speed post-flyby
     x_p.carts = rv2coe(x_p.r_I, x_p.v_I, sun.mu);
-    %x_p.carts2 = cart2kep_mitch([x_p.r_I; x_p.v_I], sun.mu);
+    x_p.carts2 = cart2kep_mitch([x_p.r_I; x_p.v_I], sun.mu);
     x_p.a = x_p.carts.SMA;
     x_p.e = x_p.carts.ECC;
     x_p.gamma = fpa(x_p.r_mag, x_p.v_mag, sun.mu, x_p.a, x_p.e, 'deg'); % flight path angle
