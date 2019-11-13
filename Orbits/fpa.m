@@ -21,7 +21,6 @@ function FPA = fpa(r,v,mu,a,e,units)
         return
     end
     if strcmp(units,'deg')
-        sqrt(mu*p)/(r*v)
         FPA = acosd(sqrt(mu*p)/(r*v));
     else strcmp(units,'rad')
         FPA = acos(sqrt(mu*p)/(r*v));
