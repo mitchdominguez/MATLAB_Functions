@@ -33,10 +33,14 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius, leadtrail, t
     end
     ta_sign = ta_sign/abs(ta_sign);
 
+    if ~isfield(orbit1,'AOP')
+        orbit1.AOP = 0;
+    end
+
     % Get initial values at flyby point
     x_m.r_mag = planet.a;
     x_m.thstar = ta_sign*ta_conic(x_m.r_mag, orbit1.a, orbit1.e, 'deg'); % initial true anomaly
-    x_m.iCr = rot_rthh2inertial(0,0,x_m.thstar,'deg'); % Rotation matrix from rotating frame to inertial frame
+    x_m.iCr = rot_rthh2inertial(0,0,orbit1.AOP + x_m.thstar,'deg'); % Rotation matrix from rotating frame to inertial frame
     x_m.r_I = x_m.iCr*x_m.r_mag*x; % position in inertial frame [3x1]
     x_m.v_mag = v_vis_viva(sun.mu, x_m.r_mag, orbit1.a); % initial speed
     x_m.gamma = ta_sign*fpa(x_m.r_mag, x_m.v_mag, sun.mu, orbit1.a, orbit1.e, 'deg'); % flight path angle
