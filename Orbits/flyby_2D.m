@@ -31,27 +31,30 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius, leadtrail, t
     if nargin < 6
         ta_sign = 1;
     end
-    ta_sign = ta_sign/abs(ta_sign);
-
-    if ~isfield(orbit1,'AOP')
-        orbit1.AOP = 0;
-    end
 
     % Get initial values at flyby point
-    x_m.r_mag = planet.a;
-    x_m.thstar = ta_sign*ta_conic(x_m.r_mag, orbit1.a, orbit1.e, 'deg'); % initial true anomaly
-    x_m.iCr = rot_rthh2inertial(0,0,orbit1.AOP + x_m.thstar,'deg'); % Rotation matrix from rotating frame to inertial frame
-    x_m.r_I = x_m.iCr*x_m.r_mag*x; % position in inertial frame [3x1]
-    x_m.v_mag = v_vis_viva(sun.mu, x_m.r_mag, orbit1.a); % initial speed
-    x_m.gamma = ta_sign*fpa(x_m.r_mag, x_m.v_mag, sun.mu, orbit1.a, orbit1.e, 'deg'); % flight path angle
-    x_m.v_R = x_m.v_mag * [sind(x_m.gamma); cosd(x_m.gamma); 0]; % Rotational frame velocity pre-encounter
-    x_m.v_I = x_m.iCr*x_m.v_R; % Inertial frame velocity pre-encounter
-    x_m.carts = rv2coe(x_m.r_I, x_m.v_I, sun.mu);
-    x_m.eps = -sun.mu/(2*x_m.carts.SMA);
+    x_m = pre_flyby_2D(orbit1, planet, sun, ta_sign);
 
     % planet values at flyby
     v_J_mag = sqrt((sun.mu)/planet.a); % planet speed
     v_J_I = x_m.iCr*[0;v_J_mag;0]; % planet inertial velocity
+
+    % Determine sign for delta
+    % Sign changes depending on whether SC leads or trails planet
+    if strcmpi('lead',leadtrail)
+        LT = +1;
+    else
+        LT = -1;
+    end
+
+    % Sign changes depending on whether SC approaches from within or outside planet orbit
+    if dot(x_m.r_I, x_m.v_I) < dot(x_m.r_I, v_J_I) 
+        OI = +1;
+    else
+        OI = -1;
+    end
+
+    dsign = LT*OI; % sign of delta
 
     % Flyby values
     x_h.v_J_mag = v_J_mag;
@@ -60,11 +63,7 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius, leadtrail, t
     x_h.v_inf_mag = norm(x_h.v_inf_m); % Hyperbolic excess speed [km/s]
     x_h.a = -planet.mu/x_h.v_inf_mag^2; % Semimajor axis of hyperbolic orbit [km]
     x_h.e = 1-x_h.r_p/x_h.a; % Eccentricity of flyby
-    if nargin >= 5 && strcmp('lead',leadtrail)
-        x_h.delta = -2*ta_sign*asind(1/x_h.e); % Flyby angle [deg]
-    else
-        x_h.delta = 2*ta_sign*asind(1/x_h.e); % Flyby angle [deg]
-    end
+    x_h.delta = 2*dsign*asind(1/x_h.e); % Flyby angle [deg]
     x_h.v_inf_p = rotmataa(z,x_h.delta,'deg')*x_h.v_inf_m; % Hyperbolic excess velocity on exit [km/s] [3x1]
 
     % Post-flyby values
@@ -73,7 +72,6 @@ function [x_m, x_h, x_p] = flyby(orbit1, planet, sun, flyby_radius, leadtrail, t
     x_p.v_I = v_J_I + x_h.v_inf_p; % heliocentric velocity after flyby (in inertial frame) [km/s] [3x1]
     x_p.v_mag = norm(x_p.v_I); % heliocentric speed post-flyby
     x_p.carts = rv2coe(x_p.r_I, x_p.v_I, sun.mu);
-    %x_p.carts2 = cart2kep_mitch([x_p.r_I; x_p.v_I], sun.mu);
     x_p.a = x_p.carts.SMA;
     x_p.e = x_p.carts.ECC;
     x_p.gamma = sign(x_p.carts.TA)*abs(fpa(x_p.r_mag, x_p.v_mag, sun.mu, x_p.a, x_p.e, 'deg')); % flight path angle
