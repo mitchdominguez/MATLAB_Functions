@@ -6,12 +6,13 @@
 %   v_I = inertial frame velocity vector [km/s] [3x1]
 %   r_R = rotating frame position vector [km/s] [3x1]
 %   v_R = rotating frame velocity vector [km/s] [3x1]
+%   x   = struct containing some more data calculated within the function
 %
 % Inputs:
 %   coe = struct containing classical orbital elements [SMA, ECC, AOP, RAAN, INC, TA] (units in deg)
 %   mu = gravitational parameter [km3/s2]
 
-function [r_I, v_I, r_R, v_R] = rv2coe(coe,mu)
+function [x] = coe2rv(coe,mu)
     % Assume 3D orbital elements are zero if they are not given
     if ~isfield(coe,'AOP')
         coe.AOP = 0;
@@ -64,4 +65,14 @@ function [r_I, v_I, r_R, v_R] = rv2coe(coe,mu)
 
     v_R = v_mag*[sind(gamma);cosd(gamma); 0];
     v_I = iCr*v_R;
+
+    x.r_mag = r_mag;
+    x.v_mag = v_mag;
+    x.gamma = gamma;
+    x.oe = coe;
+    x.iCr = iCr;
+    x.r_R = r_R;
+    x.r_I = r_I;
+    x.v_R = v_R;
+    x.v_I = v_I;
 end
