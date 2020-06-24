@@ -52,7 +52,10 @@ function coe = rv2coe(r,v,mu)
     %end
 
     % Calculate omega
+    %r_hat
+    %th_hat
     th = atan2d(r_hat(3)/sind(i), th_hat(3)/sind(i));
+    th = atan2d(r_hat(3), th_hat(3));
     %if isnan(th)
         %disp('WARNING: TH WAS NAN')
         %th = 0;

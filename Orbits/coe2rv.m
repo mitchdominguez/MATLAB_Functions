@@ -2,10 +2,6 @@
 % Convert classical (keplerian) orbital elements (COEs) into inertial position and velocity
 %
 % Outputs:
-%   r_I = inertial frame position vector [km/s] [3x1]
-%   v_I = inertial frame velocity vector [km/s] [3x1]
-%   r_R = rotating frame position vector [km/s] [3x1]
-%   v_R = rotating frame velocity vector [km/s] [3x1]
 %   x   = struct containing some more data calculated within the function
 %
 % Inputs:
@@ -13,17 +9,6 @@
 %   mu = gravitational parameter [km3/s2]
 
 function [x] = coe2rv(coe,mu)
-    % Assume 3D orbital elements are zero if they are not given
-    if ~isfield(coe,'AOP')
-        coe.AOP = 0;
-    end
-    if ~isfield(coe,'RAAN')
-        coe.RAAN = 0;
-    end
-    if ~isfield(coe,'INC')
-        coe.INC = 0;
-    end
-
     % Convet between using caps orbital elements and lowercase abbreviations
     if ~isfield(coe,'SMA') && isfield(coe,'a')
         coe.SMA = coe.a;
@@ -42,6 +27,17 @@ function [x] = coe2rv(coe,mu)
     end
     if ~isfield(coe,'INC') && isfield(coe,'i')
         coe.INC = coe.i;
+    end
+
+    % Assume 3D orbital elements are zero if they are not given
+    if ~isfield(coe,'AOP')
+        coe.AOP = 0;
+    end
+    if ~isfield(coe,'RAAN')
+        coe.RAAN = 0;
+    end
+    if ~isfield(coe,'INC')
+        coe.INC = 0;
     end
 
     a = coe.SMA;

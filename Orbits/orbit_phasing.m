@@ -13,9 +13,16 @@
 %   e = eccentricity of target orbit
 %   max_iter = maximum iterations allowed when solving the Kepler Time Equation
 %   tol = convergence criteria for solving KTE
+%   transfer_angle = transfer angle [deg] NOTE UNITS HERE
 
-function phi = orbit_phasing(tof, n, e, max_iter, tol)
-    M = pi - n*tof;
+function phi = orbit_phasing(tof, n, e, max_iter, tol, transfer_angle)
+    if nargin < 6
+        transfer_angle = pi;
+    else
+        transfer_angle = deg2rad(transfer_angle);
+    end
+
+    M = transfer_angle - n*tof;
     [E, err] = kepler_time_NR(M, e, max_iter, tol);
     phi = 2*atand(sqrt((1+e)/(1-e))*tan(E/2));
 end

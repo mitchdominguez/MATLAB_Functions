@@ -1,0 +1,186 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>patchsc documentation</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-05-24"><meta name="DC.source" content="patchsc_documentation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1><tt>patchsc</tt> documentation</h1><!--introduction--><p><tt>patchsc</tt> plots patch objects with face colors scaled by numeric values.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Example</a></li><li><a href="#7">Author Info</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>patchsc(x,y,z)
+patchsc(...,'colormap',cmap)
+patchsc(...,'caxis',ColorAxisLimits)
+patchsc(...,'PatchProperty',Value,...)
+h = patchsc(...)</pre><h2>Description<a name="2"></a></h2><p><tt>patchsc(x,y,z)</tt> plots cell arrays <tt>x,y</tt> color-scaled by the numeric values in <tt>z</tt>. Dimensions of <tt>z</tt> must match the dimensions of cell arrays <tt>x</tt> and <tt>y</tt>. <tt>x</tt> and <tt>y</tt> can contain multiple sections separated by NaNs.</p><p><tt>patchsc(...,'colormap',cmap)</tt> specifies a colormap to which face colors will be mapped. If a colormap is not specified, your default colormap will be used.</p><p><tt>patchsc(...,'caxis',ColorAxisLimits)</tt> sets color axis limits. This is different from other functions like <tt>imagesc</tt> or <tt>surf</tt>, which allow setting color limits after plotting. <tt>patchsc</tt> does not allow changing the color axis limits after plotting. Default limits are taken as <tt>[min(z) max(z)]</tt>.</p><p><tt>patchsc(...,'PatchProperty',Value,...)</tt> specifies any patch property.</p><p><tt>h = patchsc(...)</tt> returns handles of all the patch objects. The data element corresponding to each patch object is included in the handle <tt>'tag'</tt> property.</p><h2>Example<a name="3"></a></h2><p>The emissions.mat dataset provided with this function contains CO2 emissions data for 183 countries. I did a quick job of swiping the dataset from Wikipedia and there are some missing countries, but it works well enough for this example.</p><p>You'll notice that <tt>lon</tt> and <tt>lat</tt> are 183x1 cell arrays and <tt>emissions_per_capita</tt> is 183x1 double.</p><pre class="codeinput">load <span class="string">emissions</span>
+
+figure(<span class="string">'pos'</span>,[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita)
+colorbar
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="patchsc_documentation_01.png" alt=""> <p>In the plot above, it's hard to get a good sense of small differences between many of the countries because the color axis limits go up to 40 due to a few outliers. If you want to change the color axis limits I'm afraid you can't simply do it by</p><pre>caxis([2 24])</pre><p>Instead, you'll have to replot everything, setting the color axis limits when you call <tt>patchsc</tt>.</p><pre class="codeinput">figure(<span class="string">'pos'</span>,[100 100 560 320])
+
+patchsc(lon,lat,emissions_per_capita,<span class="string">'caxis'</span>,[2 24])
+colorbar
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="patchsc_documentation_02.png" alt=""> <p>If you don't want to use the default colormap, you can set your own. But like the <tt>caxis</tt> limits, you'll have to set the colormap when you call <tt>patchsc</tt>. I like the perceptually-uniform <a href="https://www.mathworks.com/matlabcentral/fileexchange/57773"><tt>cmocean</tt></a> colormaps by Thyng et al., 2016.</p><pre class="codeinput">figure(<span class="string">'pos'</span>,[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita,<span class="string">'caxis'</span>,[2 24],<span class="string">'colormap'</span>,cmocean(<span class="string">'amp'</span>))
+colorbar
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="patchsc_documentation_03.png" alt=""> <p>You can also specify any patch property, including facealpha, linewidth, edgecolor, etc. You can really make it as hideous as you'd like.</p><pre class="codeinput">figure(<span class="string">'pos'</span>,[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita,<span class="string">'caxis'</span>,[2 24],<span class="keyword">...</span>
+   <span class="string">'colormap'</span>,cmocean(<span class="string">'thermal'</span>),<span class="keyword">...</span>
+   <span class="string">'edgecolor'</span>,<span class="string">'blue'</span>,<span class="keyword">...</span>
+   <span class="string">'linewidth'</span>,3,<span class="keyword">...</span>
+   <span class="string">'facealpha'</span>,0.5)
+colorbar
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="patchsc_documentation_04.png" alt=""> <h2>Author Info<a name="7"></a></h2><p>This function and supporting documentation were written by Chad A. Greene of the University of Texas Institute for Geopyhsics (UTIG), May 2017.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% |patchsc| documentation
+% |patchsc| plots patch objects with face colors scaled by numeric values. 
+%
+%% Syntax
+% 
+%  patchsc(x,y,z)
+%  patchsc(...,'colormap',cmap)
+%  patchsc(...,'caxis',ColorAxisLimits)
+%  patchsc(...,'PatchProperty',Value,...)
+%  h = patchsc(...)
+% 
+%% Description 
+% 
+% |patchsc(x,y,z)| plots cell arrays |x,y| color-scaled by the numeric values in |z|. Dimensions
+% of |z| must match the dimensions of cell arrays |x| and |y|. |x| and |y| can contain multiple sections
+% separated by NaNs. 
+% 
+% |patchsc(...,'colormap',cmap)| specifies a colormap to which face colors will be mapped. If 
+% a colormap is not specified, your default colormap will be used. 
+% 
+% |patchsc(...,'caxis',ColorAxisLimits)| sets color axis limits. This is different from other 
+% functions like |imagesc| or |surf|, which allow setting color limits after plotting. |patchsc|
+% does not allow changing the color axis limits after plotting. Default limits are taken
+% as |[min(z) max(z)]|. 
+% 
+% |patchsc(...,'PatchProperty',Value,...)| specifies any patch property. 
+% 
+% |h = patchsc(...)| returns handles of all the patch objects. The data element corresponding 
+% to each patch object is included in the handle |'tag'| property. 
+% 
+%% Example
+% The emissions.mat dataset provided with this function contains CO2 emissions data 
+% for 183 countries. I did a quick job of swiping the dataset from Wikipedia and there 
+% are some missing countries, but it works well enough for this example. 
+% 
+% You'll notice that |lon| and |lat| are 183x1 cell arrays and |emissions_per_capita|
+% is 183x1 double. 
+
+load emissions
+
+figure('pos',[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita) 
+colorbar
+axis tight
+
+%% 
+% In the plot above, it's hard to get a good sense of small differences between many 
+% of the countries because the color axis limits go up to 40 due to a few outliers. 
+% If you want to change the color axis limits I'm afraid you can't simply do it by
+% 
+%  caxis([2 24]) 
+% 
+% Instead, you'll have to replot everything, setting the color axis limits when you 
+% call |patchsc|. 
+
+figure('pos',[100 100 560 320])
+
+patchsc(lon,lat,emissions_per_capita,'caxis',[2 24]) 
+colorbar
+axis tight
+
+%% 
+% If you don't want to use the default colormap, you can set your own. But like the
+% |caxis| limits, you'll have to set the colormap when you call |patchsc|. I like
+% the perceptually-uniform <https://www.mathworks.com/matlabcentral/fileexchange/57773 
+% |cmocean|> colormaps by Thyng et al., 2016. 
+
+figure('pos',[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita,'caxis',[2 24],'colormap',cmocean('amp')) 
+colorbar
+axis tight
+
+%% 
+% You can also specify any patch property, including facealpha, linewidth, edgecolor, etc. 
+% You can really make it as hideous as you'd like. 
+
+figure('pos',[100 100 560 320])
+patchsc(lon,lat,emissions_per_capita,'caxis',[2 24],...
+   'colormap',cmocean('thermal'),...
+   'edgecolor','blue',...
+   'linewidth',3,...
+   'facealpha',0.5) 
+colorbar
+axis tight
+
+%% Author Info 
+% This function and supporting documentation were written by Chad A. Greene of the University
+% of Texas Institute for Geopyhsics (UTIG), May 2017. 
+##### SOURCE END #####
+--></body></html>

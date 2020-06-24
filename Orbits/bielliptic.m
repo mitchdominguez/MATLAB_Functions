@@ -21,6 +21,8 @@
 function [man, tof] = bielliptic(orbit1, orbit2, RAAN, r_i, mu)
 
     %% Unpack inputs
+    orbit1 = convert_oe_struct(orbit1);
+    orbit2 = convert_oe_struct(orbit2);
     a_1 = orbit1.SMA;
     e_1 = orbit1.ECC;
     i_1 = orbit1.INC;

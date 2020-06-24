@@ -18,5 +18,6 @@
 %   f = figure handle to plot on
 
 function [iCp,r_rotated,f,plot_objs] = plot_conic(thstars, orbit, units, plotstyle, f)
+    orbit = convert_oe_struct(orbit);
     [iCp, r_rotated, f, plot_objs] = plot_conic_3D(thstars, orbit.SMA, orbit.ECC, orbit.AOP, orbit.RAAN, orbit.INC, units, plotstyle, f);
 end
