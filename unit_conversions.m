@@ -9,6 +9,7 @@
 %% LENGTH
 m2km = 1e-3; 
 km2m = 1e3;
+
 au2km = 149597870700*m2km;
 km2au = 1/au2km;
 
