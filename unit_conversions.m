@@ -32,4 +32,16 @@ day2sec = day2hr*hr2sec;
 min2day = min2hr*hr2day;
 day2min = day2hr*hr2min;
 
+yr2day = 365.25; % Julian year
+day2yr = 1/yr2day;
+
+yr2hr = yr2day*day2hr;
+hr2yr = hr2day*day2yr;
+
+yr2min = yr2hr*hr2min;
+min2yr = min2hr*hr2yr;
+
+yr2sec = yr2min*min2sec;
+sec2yr = sec2min*min2yr;
+
 %% MASS
