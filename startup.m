@@ -4,6 +4,8 @@ startup_path = which('startup');
 startup_path = startup_path(1:end-9);
 p = genpath([startup_path, '/Orbits']);
 addpath(p)
+q = genpath([startup_path, '/R3BP']);
+addpath(q)
 set(0,'defaulttextInterpreter','latex') %latex axis labels
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); 
 set(groot, 'defaultLegendInterpreter','latex');
