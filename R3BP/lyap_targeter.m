@@ -45,6 +45,9 @@ function soln = lyap_targeter(mu, z_ic, tmax, ode_opts, max_iter, tol)
     dv_net = Z0{iters}(3:4)-Z0{1}(3:4);
     dtf_net = tf(end)-tf(1);
 
+    % Set up options for integrating without an events function
+    ode_opts = odeset(ode_opts,'Events',[]);
+
     % Package solution struct
     soln.dv_net = dv_net;
     soln.dtf_net = dtf_net;
@@ -59,8 +62,7 @@ function soln = lyap_targeter(mu, z_ic, tmax, ode_opts, max_iter, tol)
     soln.tf = tf;
     soln.P = tf(end)*2;
     soln.z_0_per = Z0{end}(1:4);
-    soln.t = [];
-    soln.z = [];
+    [soln.t, soln.z] = ode113(@cr3bp_2d,[0,soln.P],soln.z_0_per,ode_opts,mu);
 end
 
 % Events function
