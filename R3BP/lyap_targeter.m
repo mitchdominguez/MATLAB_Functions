@@ -13,7 +13,7 @@ function soln = lyap_targeter(mu, z_ic, tmax, ode_opts, max_iter, tol)
 
     while 1
         % Integrate to t2 to get both the state and the STM at that time
-        [T{i},Z{i}] = ode113(@stm_phidot_A_phi,[0,tmax],Z0{i},ode_opts,mu);
+        [T{i},Z{i}] = ode113(@stm_phidot_A_phi_2d,[0,tmax],Z0{i},ode_opts,mu);
         phi_tf = reshape(Z{i}(end,5:20),[4 4]);
         tf(i) = T{i}(end); % New tf is the time when the sim is stopped --> crosses x axis
         phi_aug_tf{i} = [phi_tf, cr3bp_2d(tf(i),Z{i}(end,1:4)', mu)];
