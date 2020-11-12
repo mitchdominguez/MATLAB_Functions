@@ -48,6 +48,15 @@ function soln = lyap_targeter(mu, z_ic, tmax, ode_opts, max_iter, tol)
     % Set up options for integrating without an events function
     ode_opts = odeset(ode_opts,'Events',[]);
 
+    %% Set up calculation of the monodromy matrix
+    %G = diag([1;-1;1;-1;1;-1]);
+    %W = [0 1 0;-1 0 0;0 0 0];
+    %V = [eye(3),zeros(3);-W,eye(3)]
+    %mat1 = [zeros(3),-eye(3);eye(3),-2*W];
+    %mat2 = [-2*W, eye(3);-eye(3),zeros(3)];
+    %Zend = Z(end,5:20);
+    %half_phi = reshape(Z(end,5:20),[4 4]);
+
     % Package solution struct
     soln.dv_net = dv_net;
     soln.dtf_net = dtf_net;

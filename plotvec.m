@@ -2,7 +2,7 @@
 % Plot a vector from start point to stop point
 
 function plot_obj = plotvec(start, stop,varargin)
-    disp(varargin)
+    %disp(varargin)
     plot_obj = 1;
     if size(start) ~= size(stop)
         disp('Start and stop points must be of the same dimension')
