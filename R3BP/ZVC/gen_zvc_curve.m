@@ -1,8 +1,8 @@
-function soln = gen_zvc_curve(init_pt, mu, C)
+function soln = gen_zvc_curve(init_pt, mu, C, max_iter, tol)
 
     % Define stopping point and tolerance for each NR computation
-    max_iter = 1e2;
-    tol = 1e-12;
+    %max_iter = 1e2;
+    %tol = 1e-12;
 
     % Initialize loop index variable
     i = 1;

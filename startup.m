@@ -9,7 +9,8 @@ addpath(q)
 set(0,'defaulttextInterpreter','latex') %latex axis labels
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); 
 set(groot, 'defaultLegendInterpreter','latex');
-set(0,'DefaultAxesFontSize',12)
+set(groot, 'defaultTextFontSize',16);
+set(0,'DefaultAxesFontSize',18)
 set(0,'DefaultAxesTitleFontSizeMultiplier',1.2)
 set(0,'DefaultAxesLabelFontSizeMultiplier',1.2)
 

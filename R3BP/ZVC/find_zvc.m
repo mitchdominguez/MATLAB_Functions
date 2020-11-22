@@ -1,6 +1,6 @@
 %% Mitchell Dominguez - doming18@purdue.edu - find_zvc.m
 % Find the Zero Velocity Curve for a given system
-function soln = find_zvc(mu, C)
+function soln = find_zvc(mu, C, max_iter, tol)
 
     % Calculate Lagrange Point Jacobi Constants
     %   This will help with determining how many x-axis crossings there are
@@ -39,19 +39,18 @@ function soln = find_zvc(mu, C)
 
     x_y0 = sort(double(solve(subs(f,y,0)==0,x,'real',true))); % x axis crossings
 
-
     switch n
         case 2
-            soln = gen_zvc_curve([x_y0(end),0],mu,C);
+            soln = gen_zvc_curve([x_y0(end),0],mu,C,max_iter,tol);
         case 4
-            outer = gen_zvc_curve([x_y0(end),0],mu,C); % Solve outer loop
-            inner = gen_zvc_curve([x_y0(end-1),0],mu,C); % Solve inner loop
+            outer = gen_zvc_curve([x_y0(end),0],mu,C,max_iter,tol); % Solve outer loop
+            inner = gen_zvc_curve([x_y0(end-1),0],mu,C,max_iter,tol); % Solve inner loop
             soln.outer = outer;
             soln.inner = inner;
         case 6
-            outer = gen_zvc_curve([x_y0(end),0],mu,C); % Solve outer loop
-            m2 = gen_zvc_curve([x_y0(end-1),0],mu,C); % Solve m2 loop
-            m1 = gen_zvc_curve([x_y0(end-3),0],mu,C); % Solve m1 loop
+            outer = gen_zvc_curve([x_y0(end),0],mu,C,max_iter,tol); % Solve outer loop
+            m2 = gen_zvc_curve([x_y0(end-1),0],mu,C,max_iter,tol); % Solve m2 loop
+            m1 = gen_zvc_curve([x_y0(end-3),0],mu,C,max_iter,tol); % Solve m1 loop
             soln.outer = outer;
             soln.m2 = m2;
             soln.m1 = m1;
