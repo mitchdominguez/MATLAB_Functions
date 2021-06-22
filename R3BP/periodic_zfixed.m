@@ -44,7 +44,7 @@ function soln = periodic_zfixed(mu, z_ic, tmax, ode_opts, max_iter, tol)
         dx0ydot0(:,i) = mat\err(:,i);
 
         % Compute the new initial conditions and t_final - v_i+1 = v_i + dv_i
-        z_ic(:,i+1) = z_ic(:,i) + [0;0;dx0ydot0(1,i);0;dx0ydot0(2,i);0]; % Updated initial state
+        z_ic(:,i+1) = z_ic(:,i) + [dx0ydot0(1,i);0;0;0;dx0ydot0(2,i);0]; % Updated initial state
         Z0{i+1} = [z_ic(:,i+1);reshape(eye(6),[36 1])]; % Updated initial conditions
 
         i = i+1;
