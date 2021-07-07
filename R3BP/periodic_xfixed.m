@@ -83,7 +83,9 @@ function soln = periodic_xfixed(mu, z_ic, tmax, ode_opts, max_iter, tol)
 
     soln.M = G*mat1*phi_half_P'*mat2*G*phi_half_P; % Monodromy matrix
     [soln.V,D] = eig(soln.M);
-    soln.lam = diag(D); % Eigenvalues of the monodromy matrix
+    soln.lam = pair_eigs(diag(D)); % Paired eigenvalues of the monodromy matrix
+    soln.stab_inds = 0.5*[soln.lam(1) + 1/soln.lam(1), soln.lam(3) + 1/soln.lam(3)]; % stability indices
+    soln.nu = max(abs(soln.stab_inds)); % Maximum stability index
 end
 
 % Events function
