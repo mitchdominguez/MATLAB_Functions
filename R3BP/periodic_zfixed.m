@@ -71,6 +71,7 @@ function soln = periodic_zfixed(mu, z_ic, tmax, ode_opts, max_iter, tol)
     soln.P = tf(end)*2;
     soln.z_0_per = Z0{end}(1:6);
     [soln.t, soln.z] = ode113(@cr3bp,[0,soln.P],soln.z_0_per,ode_opts,mu);
+    soln.rp = min(norm3(soln.z(:,1:3)-[1-mu,0,0])); % Perilune radius -- DO NOT TRUST IN GENERAL
 
     % Calculate monodromy matrix
     S = [zeros(3), eye(3);-eye(3),zeros(3)];
@@ -84,7 +85,7 @@ function soln = periodic_zfixed(mu, z_ic, tmax, ode_opts, max_iter, tol)
     soln.M = G*mat1*phi_half_P'*mat2*G*phi_half_P; % Monodromy matrix
     [soln.V,D] = eig(soln.M);
     soln.lam = pair_eigs(diag(D)); % Paired eigenvalues of the monodromy matrix
-    soln.stab_inds = 0.5*[soln.lam(1) + 1/soln.lam(1), soln.lam(3) + 1/soln.lam(3)]; % stability indices
+    soln.stab_inds = sort(real(0.5*[soln.lam(1) + 1/soln.lam(1), soln.lam(3) + 1/soln.lam(3)])); % stability indices
     soln.nu = max(abs(soln.stab_inds)); % Maximum stability index
 end
 
