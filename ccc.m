@@ -1,3 +1,3 @@
-clear all
+clear% all
 close all
 clc
