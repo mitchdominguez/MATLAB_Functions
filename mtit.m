@@ -64,6 +64,18 @@
 %-------------------------------------------------------------------------------
 function	par=mtit(varargin)
 
+    % MITCH EDIT TO USE SGTITLE 01/12/2022 -- functions as a wrapper for sgtitle
+    ttext = varargin{1};
+    if nargin==1 % No font size specified - use default font size
+        fontsize = get(0,'DefaultAxesFontSize')*get(0,'DefaultAxesTitleFontSizeMultiplier');
+        sgtitle(ttext,'FontSize',fontsize)
+    end
+
+    return
+
+
+    
+
 		defunit='normalized';
 	if	nargout
 		par=[];
