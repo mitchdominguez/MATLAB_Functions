@@ -59,7 +59,7 @@ function soln = periodic_xfixed(mu, z_ic, tmax, ode_opts, max_iter, tol)
     % Package solution struct
     soln.dv_net = dv_net;
     soln.dtf_net = dtf_net;
-    soln.dz0ydot0 = dz0ydot0;
+%     soln.dz0ydot0 = dz0ydot0;
     soln.Z0 = Z0;
     soln.Z = Z;
     soln.err = err;
